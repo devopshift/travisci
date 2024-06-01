@@ -1,3 +1,4 @@
+# Description: A simple machine learning application that trains a model and makes a prediction.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
