@@ -2,7 +2,7 @@
 FROM python:3.12-slim as dependencies
 WORKDIR /app
 COPY requirements.txt .
-RUN  xargs -n 1 -P 1  pip install -r requirements.txt
+RUN  xargs -n 1 -P 1  pip install -r requirements.txt --progress-bar off
 RUN echo "Dependencies stage completed"
 
 # Stage 2: Linting and Security Checks
