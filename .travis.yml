@@ -9,7 +9,7 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 script:
-  - docker build -t my-python-app .
+  - docker build -t my-python-app -f ./demos/simpleapp .
 
 after_success:
   - docker images
