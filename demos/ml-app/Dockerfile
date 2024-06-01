@@ -3,6 +3,8 @@ FROM python:3.8-slim as dependencies
 WORKDIR /app
 COPY requirements.txt .
 RUN python -m pip download -d /app/deps -r requirements.txt
+# test pip install 
+RUN pip install --no-index --find-links=/app/deps -r requirements.txt
 RUN echo "Dependencies stage completed"
 
 # Stage 2: Linting and Security Checks
