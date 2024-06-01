@@ -1,0 +1,19 @@
+# Pipeline example for a Node.js project
+language: node_js
+node_js:
+  - "12"
+services:
+  - docker
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+script:
+  - docker build -t my-node-app -f ./demos/simpleapp/Dockerfile .
+after_success:
+  - docker images
+  # Validate functionality by running the container and checking the output of the app as "Hello, World!"
+  - docker run my-node-app | grep "Hello, World!"
+  # Use build number as tag
+  - docker tag my-node-app yanivomc/my-node-app:$TRAVIS_BUILD_NUMBER
+  # push the image to docker hub
+  - docker push yanivomc/my-node-app:$TRAVIS_BUILD_NUMBER
+# End of snippet from .travis.yml

@@ -1,0 +1,22 @@
+language: python
+python:
+  - "3.8"
+
+services:
+  - docker
+
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+script:
+  - docker build -t my-python-app -f ./demos/simpleapp/Dockerfile .
+
+after_success:
+  - docker images
+  # Validate functionality by running the container and checking the output of the app as "Hello, World!"
+  - docker run my-python-app | grep "Hello, World!"
+  # Use build number as tag
+  - docker tag my-python-app yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER
+  # push the image to docker hub
+  - docker push yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER
+  
