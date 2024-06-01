@@ -9,11 +9,7 @@ env:
     - GlobalVar2=true
 
 before_install:
-  - sudo fallocate -l 2G /swapfile
-  - sudo chmod 600 /swapfile
-  - sudo mkswap /swapfile
-  - sudo swapon /swapfile
-  - free -m
+  - docker version
 
 before_script:
   - cd ./demos/ml-app
