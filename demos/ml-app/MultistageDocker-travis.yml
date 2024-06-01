@@ -19,7 +19,10 @@ jobs:
     - stage: Build Docker Image
       script:
         - echo "Building Docker Image..."
-        - docker build -t my-python-app -f ./demos/ml-app/Dockerfile .
+        - pwd
+        # force step to exit if there are any errors
+        - set -e
+        - docker build -t my-python-app -f .
         - docker images
         # View reportes from the container under folder /reports
         - docker run my-python-app cat /reports
