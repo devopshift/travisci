@@ -20,7 +20,7 @@ jobs:
       script:
         - echo "Building Docker Image..."
         - pwd
-        # force step to exit if there are any errors
+        - echo "force step to exit if there are any errors"
         - set -e
         - docker build -t my-python-app -f .
         - docker images
