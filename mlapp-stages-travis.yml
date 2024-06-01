@@ -1,0 +1,39 @@
+language: python
+python:
+  - "3.8"
+
+services:
+  - docker
+
+env:
+  global:
+    - GlobalVar1=false
+    - GlobalVar2=true
+
+before_install:
+  - pip install flake8 bandit
+
+before_script:
+  - cd ./demos/ml-app
+
+install:
+  - pip install -r ./demos/ml-app/requirements.txt
+
+script:
+  -  python -m unittest discover -v tests 
+
+jobs:
+  include:
+    - stage: Lint and Security Checks
+      script:
+        - echo "Running lint and security checks..."
+        - pwd
+        - flake8 main.py --statistics --count -v --show-source --exit-zero 
+        - bandit -r . -v -s B101 
+
+    - stage: Install Dependencies and Test
+      script:
+        - pwd
+        - echo "Installing dependencies and running tests..."
+        - pip install -r requirements.txt
+        - python -m unittest discover tests
