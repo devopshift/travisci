@@ -10,7 +10,7 @@ FROM python:3.12-slim as lint-security
 WORKDIR /app
 RUN mkdir /report
 COPY requirements.txt .
-RUN  pip install -r requirements.txt
+RUN  xargs -n 1 -P 1 pip install -r requirements.txt
 COPY . .
 RUN echo "Running flake8 and bandit"
 RUN flake8 main.py --statistics --count -v --show-source --exit-zero > /report/flake8.log  2>&1
