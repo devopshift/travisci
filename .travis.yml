@@ -28,7 +28,6 @@ jobs:
       script:
         - echo "Running lint and security checks..."
         - pwd
-        - cd ./demos/ml-app
         - flake8 main.py --statistics --count -v --show-source --exit-zero 
         - bandit -r . -v -s B101 
 
@@ -36,6 +35,5 @@ jobs:
       script:
         - pwd
         - echo "Installing dependencies and running tests..."
-        - cd ./demos/ml-app
         - pip install -r requirements.txt
         - python -m unittest discover tests
