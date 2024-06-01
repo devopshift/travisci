@@ -8,8 +8,6 @@ env:
     - GlobalVar1=false
     - GlobalVar2=true
 
-before_install:
-  - docker version
 
 before_script:
   - cd ./demos/ml-app
@@ -20,6 +18,7 @@ jobs:
     - stage: Build Docker Image
       script:
         - set -e
+        - docker version
         - echo "Building Docker Image..."
         - pwd
         - echo "force step to exit if there are any errors"
