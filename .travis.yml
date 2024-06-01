@@ -18,7 +18,7 @@ jobs:
   include:
     - stage: Build Docker Image
       script:
-          - set -e
+        - set -e
         - echo "Building Docker Image..."
         - pwd
         - echo "force step to exit if there are any errors"
