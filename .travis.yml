@@ -14,6 +14,7 @@ before_install:
   - pip install flake8 bandit
 
 before_script:
+  - cd ./demos/ml-app
   - flake8 main.py
   - bandit -r .
 
