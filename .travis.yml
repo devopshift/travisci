@@ -18,5 +18,17 @@ jobs:
     - stage: Lint and Security Checks
       script:
       # Run docker build with TRAVISCI build id as tag for docker image:  registry/user/image
-      - docker build -t my-python-app:$TRAVIS_BUILD_NUMBER .
+      - docker build -t yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER .
+      - docker build -t yanivomc/my-python-app:latest .
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker push yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER
+      - docker push yanivomc/my-python-app:latest
+
+    - stage: Show reports
+      script:
+      - docker run yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER cat /report/flake8.log
+      - docker run yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER cat /report/unittests.log
+      - docker run yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER cat /report/bandit.log
+
+
       
