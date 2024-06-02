@@ -1,4 +1,4 @@
-# add --progress-bar off to avoid pip RuntimeError: can't start new thread
+# add --progress-bar off to avoid pip RuntimeError: can't start new thread AS the progress bar is using threads in pip
 FROM python:3.8-slim as dependencies
 WORKDIR /app
 COPY requirements.txt .

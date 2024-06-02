@@ -1,32 +1,38 @@
-
-
-services:
-  - docker
+language: python
+python:
+  - "3.8"
 
 env:
   global:
     - GlobalVar1=false
     - GlobalVar2=true
 
+before_install:
+  - pip install flake8 bandit
 
 before_script:
+  - flake8 main.py
+  - bandit -r .
+
+install:
+  - pip install -r ./demos/ml-app/requirements.txt
+
+script:
   - cd ./demos/ml-app
+  - python -m unittest discover ./demos/ml-app/tests
 
 jobs:
-# Rund docker build only strategy:
   include:
-    - stage: Build Docker Image
+    - stage: Lint and Security Checks
       script:
-        - set -e
-        - docker version
-        - echo "Building Docker Image..."
-        - pwd
-        - echo "force step to exit if there are any errors"
-        - docker build -t my-python-app .
-        - docker images
-        # View reportes from the container under folder /reports
-        - docker run my-python-app cat /reports
-        # Use build number as tag
-        - docker tag my-python-app yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER
-        # push the image to docker hub
-        - docker push yanivomc/my-python-app:$TRAVIS_BUILD_NUMBER
+        - echo "Running lint and security checks..."
+        - cd ./demos/ml-app
+        - flake8 main.py
+        - bandit -r .
+
+    - stage: Install Dependencies and Test
+      script:
+        - echo "Installing dependencies and running tests..."
+        - cd ./demos/ml-app
+        - pip install -r requirements.txt
+        - python -m unittest discover tests
